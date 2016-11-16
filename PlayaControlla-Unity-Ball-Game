@@ -1,0 +1,61 @@
+using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
+
+public class PlayaControlla : MonoBehaviour {
+
+    public float speed;
+    public Text countText;
+    public Text winText;
+    public Text loseText;
+
+    private Rigidbody rb;
+    private int count;
+    private int total;
+
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        count = 0;
+        total = 13;
+        SetCountText();
+        winText.text = "";
+        loseText.text = "";
+    }
+    
+    void FixedUpdate()
+    {
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
+        float tiltHorizontal = Input.acceleration.x;
+        float tiltVertical = Input.acceleration.z;
+
+        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        Vector3 tilt = new Vector3(tiltHorizontal, 0.0f, tiltVertical);
+
+        rb.AddForce(movement * speed);
+        rb.AddForce(tilt * speed);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Pick Up"))
+        {
+            other.gameObject.SetActive(false);
+            count = count + 1;
+            SetCountText();
+        }
+    }
+
+    void SetCountText()
+    {
+        countText.text = "Count: " + count.ToString ();
+        if (count == total)
+        {
+            winText.text = "You Win!";
+        }
+    }
+
+    
+}
