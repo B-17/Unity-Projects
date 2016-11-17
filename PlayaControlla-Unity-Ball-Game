@@ -12,6 +12,7 @@ public class PlayaControlla : MonoBehaviour {
     private Rigidbody rb;
     private int count;
     private int total;
+    private bool winner;
 
 
     void Start()
@@ -19,6 +20,7 @@ public class PlayaControlla : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
         count = 0;
         total = 13;
+        winner = false;
         SetCountText();
         winText.text = "";
         loseText.text = "";
@@ -32,10 +34,10 @@ public class PlayaControlla : MonoBehaviour {
         float tiltVertical = Input.acceleration.z;
 
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        Vector3 tilt = new Vector3(tiltHorizontal, 0.0f, tiltVertical);
+        Vector3 tilt = new Vector3(tiltHorizontal, 0.0f, -tiltVertical);
 
         rb.AddForce(movement * speed);
-        rb.AddForce(tilt * speed);
+        rb.AddForce(tilt * 5 * speed);
     }
 
     void OnTriggerEnter(Collider other)
@@ -46,6 +48,7 @@ public class PlayaControlla : MonoBehaviour {
             count = count + 1;
             SetCountText();
         }
+        
     }
 
     void SetCountText()
@@ -54,8 +57,6 @@ public class PlayaControlla : MonoBehaviour {
         if (count == total)
         {
             winText.text = "You Win!";
+
         }
     }
-
-    
-}
