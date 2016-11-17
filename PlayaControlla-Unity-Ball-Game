@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class PlayaControlla : MonoBehaviour {
+public class PlayaControlla : MonoBehaviour
+{
 
     public float speed;
     public Text countText;
@@ -12,7 +13,6 @@ public class PlayaControlla : MonoBehaviour {
     private Rigidbody rb;
     private int count;
     private int total;
-    private bool winner;
 
 
     void Start()
@@ -20,12 +20,11 @@ public class PlayaControlla : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
         count = 0;
         total = 13;
-        winner = false;
         SetCountText();
         winText.text = "";
         loseText.text = "";
     }
-    
+
     void FixedUpdate()
     {
         float moveHorizontal = Input.GetAxis("Horizontal");
@@ -48,15 +47,23 @@ public class PlayaControlla : MonoBehaviour {
             count = count + 1;
             SetCountText();
         }
-        
+
+        if (other.gameObject.CompareTag("Lose"))
+        {
+            other.gameObject.SetActive(false);
+            loseText.text = "YOU LOSE!";
+        }
+
     }
 
     void SetCountText()
     {
-        countText.text = "Count: " + count.ToString ();
+        countText.text = "Count: " + count.ToString();
         if (count == total)
         {
             winText.text = "You Win!";
-
         }
     }
+
+    
+}
