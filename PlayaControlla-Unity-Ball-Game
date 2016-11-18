@@ -51,7 +51,11 @@ public class PlayaControlla : MonoBehaviour
         if (other.gameObject.CompareTag("Lose"))
         {
             other.gameObject.SetActive(false);
-            loseText.text = "YOU LOSE!";
+            if (winText.text != "You Win!")
+            {
+                loseText.text = "YOU LOSE!";
+            }
+            
         }
 
     }
